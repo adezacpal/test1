@@ -9,6 +9,7 @@ pipeline {
     registyUrl = "boboacr.azurecr.io"
     APP_NAME = "nodejswebapp"
     IMAGE_TAG = "latest"
+    registryCredential = "karo-acr"
   
     }
     stages { 
