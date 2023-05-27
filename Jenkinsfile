@@ -6,7 +6,7 @@ pipeline {
      }
     environment {
     registryName = "boboacr"
-    registyUrl = ""boboacr.azurecr.io"
+    registyUrl = "boboacr.azurecr.io"
     APP_NAME = "nodejswebapp"
     IMAGE_TAG = "latest"
   
