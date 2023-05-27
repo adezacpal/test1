@@ -37,20 +37,12 @@ pipeline {
                 }
             }
         }
-        stage ('Login to Registry') {
-            steps{
-         
-                 sh "docker login boboacr.azurecr.io"
-               
-            }
-        
-        } 
         
     // Uploading Docker images into ACR
         stage('Upload Image to ACR') {
          steps{   
              script {
-                docker.withRegistry( "http://boboacr.azurecr.io", registryCredential ) {
+                docker.withRegistry( "http://boboacr.azurecr.io", 'registryCredential' ) {
                 dockerImage.push()
                 }
             }
