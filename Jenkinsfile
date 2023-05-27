@@ -5,11 +5,11 @@ pipeline {
         timeout(time: 10, unit: 'MINUTES')
      }
     environment {
-    registryName = "boboacr"
+    ACR_NAME = "boboacr"
     registyUrl = "boboacr.azurecr.io"
-    APP_NAME = "nodejswebapp"
+    IMAGE_NAME = "nodejswebapp"
     IMAGE_TAG = "latest"
-    registryCredential = "karo-acr"
+    acr_credentials = "karo-acr"
   
     }
     stages { 
@@ -30,24 +30,35 @@ pipeline {
             }
         }
     
-    stage ('Build Docker image') {
-        steps {
-                script {
-                    dockerImage = docker.build registryName
-                }
-            }
-        }
+   // stage ('Build Docker image') {
+     //   steps {
+       //         script {
+         //           dockerImage = docker.build registryName
+           //     }
+            //}
+        //}
         
     // Uploading Docker images into ACR
-        stage('Upload Image to ACR') {
-         steps{   
-             script {
-                docker.withRegistry( "http://boboacr.azurecr.io", 'registryCredential' ) {
-                dockerImage.push()
-                }
-            }
+       // stage('Upload Image to ACR') {
+         //steps{   
+           //  script {
+             //   docker.withRegistry( "http://boboacr.azurecr.io", 'registryCredential' ) {
+               // dockerImage.push()
+                //}
+            //}
+          //}
+        //}
+        
+     stage('Build and Push Docker Image') {
+      steps {
+        script {
+          docker.withRegistry("https://${ACR_NAME}.azurecr.io", 'acr-credentials') {
+            def dockerImage = docker.build("${ACR_NAME}.azurecr.io/${IMAGE_NAME}:${IMAGE_TAG}", '.')
+            dockerImage.push()
           }
         }
+      }
+    }
     stage ('K8S Deploy') {
           steps {
             script {
