@@ -5,7 +5,6 @@ pipeline {
         timeout(time: 10, unit: 'MINUTES')
      }
     environment {
-    registryName = "boboacr"
     registyUrl = "boboacr.azurecr.io"
     APP_NAME = "nodejswebapp"
     IMAGE_TAG = "latest"
@@ -32,8 +31,8 @@ pipeline {
       steps {
         // Build Docker image and push to your Docker registry
         script {
-          def dockerImage = docker.build("${registryName}/${APP_NAME}:${env.IMAGE_TAG}")
-          docker.withRegistry("${registryName}") {
+          def dockerImage = docker.build("${registryUrl}/${APP_NAME}:${env.IMAGE_TAG}")
+          docker.withRegistry("${registryUrl}") {
             dockerImage.push()
           }
         }
