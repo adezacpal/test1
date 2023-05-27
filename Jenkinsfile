@@ -5,6 +5,7 @@ pipeline {
         timeout(time: 10, unit: 'MINUTES')
      }
     environment {
+    registryName = "boboacr"
     registyUrl = "boboacr.azurecr.io"
     APP_NAME = "nodejswebapp"
     IMAGE_TAG = "latest"
@@ -27,17 +28,25 @@ pipeline {
               }
             }
         }
-      stage('Build and Push Docker Image') {
-      steps {
-        // Build Docker image and push to your Docker registry
-        script {
-          def dockerImage = docker.build("${registryUrl}/${APP_NAME}:${env.IMAGE_TAG}")
-          docker.withRegistry("${registryUrl}") {
-            dockerImage.push()
+    
+    stage ('Build Docker image') {
+        steps {
+                script {
+                    dockerImage = docker.build registryName
+                }
+            }
+        }
+        
+    // Uploading Docker images into ACR
+        stage('Upload Image to ACR') {
+         steps{   
+             script {
+                docker.withRegistry( "http://${registryUrl}", registryCredential ) {
+                dockerImage.push()
+                }
+            }
           }
         }
-      }
-    }
     stage ('K8S Deploy') {
           steps {
             script {
