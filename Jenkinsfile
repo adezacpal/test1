@@ -37,6 +37,14 @@ pipeline {
                 }
             }
         }
+        stage ('Login to Registry') {
+            steps{
+                scripts {
+                 sh "docker login boboacr.azurecr.io"
+                }
+            }
+        
+        } 
         
     // Uploading Docker images into ACR
         stage('Upload Image to ACR') {
@@ -58,10 +66,10 @@ pipeline {
           }
       }
     }
-    post { 
-        always { 
+   // post { 
+     //   always { 
            //slackSend message: 'Pipeline completed - Build deployed successfully '
            slackSend color: "good", message: "Build Successful, Image pushed to ACR and Application Deployed to AKS Cluster"
-    }
-  }
+    //}
+  //}
  }
