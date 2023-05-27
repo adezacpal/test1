@@ -39,9 +39,9 @@ pipeline {
         }
         stage ('Login to Registry') {
             steps{
-                scripts {
+         
                  sh "docker login boboacr.azurecr.io"
-                }
+               
             }
         
         } 
