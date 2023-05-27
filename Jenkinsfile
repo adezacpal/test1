@@ -39,10 +39,15 @@ pipeline {
         }
       }
     }
-      
+    stage ('K8S Deploy') {
+          steps {
+            script {
    withKubeConfig(caCertificate: '', clusterName: 'boboCluster', contextName: '', credentialsId: 'karo-kubecong', namespace: '',     restrictKubeConfigAccess: false, serverUrl: '') {
            sh "kubectl apply -f deployment.yml"
-    }  
+               } 
+            }
+          }
+    }
     post { 
         always { 
            //slackSend message: 'Pipeline completed - Build deployed successfully '
