@@ -9,7 +9,7 @@ pipeline {
     registyUrl = "boboacr.azurecr.io"
     IMAGE_NAME = "nodejswebapp"
     IMAGE_TAG = "latest"
-    acr_credentials = "karo-acr"
+   // acr_credentials = "karo-acr"
   
     }
     stages { 
@@ -43,7 +43,7 @@ pipeline {
         stage('Upload Image to ACR') {
          steps{   
              script {
-                docker.withRegistry( "http://boboacr.azurecr.io", 'acr_credentials' ) {
+                docker.withRegistry( "http://boboacr.azurecr.io", 'karo-acr' ) {
                 dockerImage.push()
                 }
             }
