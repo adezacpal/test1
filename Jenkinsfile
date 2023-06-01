@@ -25,7 +25,7 @@
          script {
             docker.withRegistry( "http://${registryUrl}", registryCredential ) {
             dockerImage.push()
-            }
+            
         }
       }
     } 
