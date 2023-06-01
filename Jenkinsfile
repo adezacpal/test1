@@ -9,7 +9,7 @@ pipeline {
     registyUrl = "boboacr.azurecr.io"
     IMAGE_NAME = "nodejswebapp"
     IMAGE_TAG = "latest"
-    CRED  = "karo-acr"
+    registryCredential  = "karo-acr"
 
     }
     stages { 
@@ -39,27 +39,27 @@ pipeline {
             }
        }
         
-    // Uploading Docker images into ACR
-     //   stage('Upload Image to ACR') {
-       //  steps{   
-         //    script {
-      //     docker.withRegistry( "http://boboacr.azurecr.io", ${CRED} ) {
-             //   dockerImage.push()
-               // }
-            //}
-          //}
-        //}
-        
-     stage('Build and Push Docker Image') {
-      steps {
-        script {
-            docker.withRegistry("https://${ACR_NAME}.azurecr.io", 'CRED') {
-            def dockerImage = docker.build("${ACR_NAME}.azurecr.io/${IMAGE_NAME}:${IMAGE_TAG}", '.')
-             dockerImage.push()
+     Uploading Docker images into ACR
+        stage('Upload Image to ACR') {
+         steps{   
+             script {
+          docker.withRegistry( "http://boboacr.azurecr.io", registryCredential ) {
+                dockerImage.push()
+                }
+            }
           }
         }
-      }
-    }
+        
+     //stage('Build and Push Docker Image') {
+      //steps {
+        //script {
+            //docker.withRegistry("https://${ACR_NAME}.azurecr.io", 'CRED') {
+            //def dockerImage = docker.build("${ACR_NAME}.azurecr.io/${IMAGE_NAME}:${IMAGE_TAG}", '.')
+            // dockerImage.push()
+          //}
+        //}
+      //}
+    //}
     stage ('K8S Deploy') {
           steps {
             script {
