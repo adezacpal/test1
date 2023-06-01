@@ -40,15 +40,15 @@ pipeline {
        }
         
     // Uploading Docker images into ACR
-        stage('Upload Image to ACR') {
-         steps{   
-             script {
-                docker.withRegistry( "http://boboacr.azurecr.io", 'karo-acr' ) {
-                dockerImage.push()
-                }
-            }
-          }
-        }
+     //   stage('Upload Image to ACR') {
+       //  steps{   
+         //    script {
+           //     docker.withRegistry( "http://boboacr.azurecr.io", 'karo-acr' ) {
+             //   dockerImage.push()
+               // }
+            //}
+          //}
+        //}
         
      stage('Build and Push Docker Image') {
       steps {
