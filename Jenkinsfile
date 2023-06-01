@@ -66,5 +66,5 @@ pipeline {
           // slackSend color: "good", message: "Build Successful, Image pushed to ACR and Application Deployed to AKS Cluster"
     //}
   //}
- }
- 
+  }
+} 
