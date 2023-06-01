@@ -10,6 +10,7 @@ pipeline {
     IMAGE_NAME = "nodejswebapp"
     IMAGE_TAG = "latest"
     registryCredential  = "karo-acr"
+    dockerImage = ""    
 
     }
     stages { 
