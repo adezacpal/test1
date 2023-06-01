@@ -1,23 +1,41 @@
-node {      
-  // Mark the code checkout 'stage'....        
-    stage('Checkout the dockefile from GitHub') {            
-      git branch: 'main', url: 'https://github.com/ooghenekaro/test1.git'
-        
-    }        
-    
-  stage('Build and Push to Azure Container Registry') {
-			app = docker.build('boboacr.azurecr.io/nodejswebapp')
-			docker.withRegistry('https://boboacr.azurecr.io', 'karo-acr') {
-				app.push("${env.BUILD_NUMBER}")
-				app.push('latest')
-			}
-		}
-  stage('Delpoying the App on Azure Kubernetes Service') {            
-    app = docker.image('boboacr.azurecr.io/nodejswebapp:latest')            
-    withDockerRegistry([credentialsId: 'boboacr', url: 'https://boboacr.azurecr.io']) {            
-    app.pull()            
-    sh "kubectl application -f ."            
-    }       
-   }    
-}
+  pipeline {
+     agent any
+     
+        environment {
+        //once you create ACR in Azure cloud, use that here
+        registryName = "boboacr/nodejswebapp"
+        //- update your credentials ID after creating credentials for connecting to ACR
+        registryCredential = 'karo-acr'
+        dockerImage = ''
+        registryUrl = 'boboacr.azurecr.io'
+    }
+       
+        stage ('Build Docker image') {
+            steps {
+                
+                script {
+                    dockerImage = docker.build registryName
+                }
+            }
+        }
+       
+    // Uploading Docker images into ACR
+    stage('Upload Image to ACR') {
+     steps{   
+         script {
+            docker.withRegistry( "http://${registryUrl}", registryCredential ) {
+            dockerImage.push()
+            }
+        }
+      }
+    } 
+    stage('Docker Run') {
+     steps{
+         script {
+                sh 'docker run -d -p 8096:5000 --rm --name mypythonContainer ${registryUrl}/${registryName}'
+            }
+      }
+    }
+    }
+ }
 
