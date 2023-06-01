@@ -6,8 +6,8 @@ node {
     }        
     
   stage('Build and Push to Azure Container Registry') {
-			app = docker.build('xxxxx.azurecr.io/event-service')
-			docker.withRegistry('https://xxxxx.azurecr.io', 'acr-cred') {
+			app = docker.build('boboacr.azurecr.io/nodejswebapp')
+			docker.withRegistry('https://boboacr.azurecr.io', 'karo-acr') {
 				app.push("${env.BUILD_NUMBER}")
 				app.push('latest')
 			}
