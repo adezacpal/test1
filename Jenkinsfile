@@ -43,7 +43,7 @@ pipeline {
         stage('Upload Image to ACR') {
          steps{   
              script {
-                docker.withRegistry( "http://boboacr.azurecr.io", 'registryCredential' ) {
+                docker.withRegistry( "http://boboacr.azurecr.io", 'acr_credentials' ) {
                 dockerImage.push()
                 }
             }
