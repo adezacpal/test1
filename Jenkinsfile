@@ -9,7 +9,7 @@
         dockerImage = ''
         registryUrl = 'boboacr.azurecr.io'
     }
-       
+    stages {
         stage ('Build Docker image') {
             steps {
                 
@@ -26,9 +26,9 @@
             docker.withRegistry( "http://${registryUrl}", registryCredential ) {
             dockerImage.push()
             
-        }
-      }
-    } 
+            }
+          }
+        } 
+      }  
+    }
   }
-}
-
