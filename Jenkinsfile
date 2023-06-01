@@ -9,8 +9,7 @@ pipeline {
     registyUrl = "boboacr.azurecr.io"
     IMAGE_NAME = "nodejswebapp"
     IMAGE_TAG = "latest"
-   registryCredential = "karo-acr"
-  
+
     }
     stages { 
         stage('SCM Checkout') {
@@ -43,7 +42,7 @@ pipeline {
      //   stage('Upload Image to ACR') {
        //  steps{   
          //    script {
-        //     docker.withRegistry( "http://boboacr.azurecr.io", 'registryCredential' ) {
+        //     docker.withRegistry( "http://boboacr.azurecr.io", 'karo-acr' ) {
              //   dockerImage.push()
                // }
             //}
@@ -53,7 +52,7 @@ pipeline {
      stage('Build and Push Docker Image') {
       steps {
         script {
-            docker.withRegistry("https://${ACR_NAME}.azurecr.io", 'registryCredential') {
+            docker.withRegistry("https://${ACR_NAME}.azurecr.io", 'karo-acr') {
             def dockerImage = docker.build("${ACR_NAME}.azurecr.io/${IMAGE_NAME}:${IMAGE_TAG}", '.')
              dockerImage.push()
           }
