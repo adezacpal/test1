@@ -33,7 +33,7 @@ pipeline {
     stage ('Build Docker image') {
         steps {
                 script {
-                    dockerImage = docker.build registryName
+                    dockerImage = docker.build registryUrl/$IMAGE_NAME:$IMAGE_TAG
                 }
             }
        }
