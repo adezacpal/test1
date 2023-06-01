@@ -30,24 +30,24 @@ pipeline {
             }
         }
     
-   // stage ('Build Docker image') {
-     //   steps {
-       //         script {
-         //           dockerImage = docker.build registryName
-           //     }
-            //}
-        //}
+    stage ('Build Docker image') {
+        steps {
+                script {
+                    dockerImage = docker.build registryName
+                }
+            }
+       }
         
     // Uploading Docker images into ACR
-       // stage('Upload Image to ACR') {
-         //steps{   
-           //  script {
-             //   docker.withRegistry( "http://boboacr.azurecr.io", 'registryCredential' ) {
-               // dockerImage.push()
-                //}
-            //}
-          //}
-        //}
+        stage('Upload Image to ACR') {
+         steps{   
+             script {
+                docker.withRegistry( "http://boboacr.azurecr.io", 'registryCredential' ) {
+                dockerImage.push()
+                }
+            }
+          }
+        }
         
      stage('Build and Push Docker Image') {
       steps {
