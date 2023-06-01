@@ -53,7 +53,7 @@ pipeline {
      stage('Build and Push Docker Image') {
       steps {
         script {
-            docker.withRegistry("https://${ACR_NAME}.azurecr.io", '${registryCredential}') {
+            docker.withRegistry("https://${ACR_NAME}.azurecr.io", 'registryCredential') {
             def dockerImage = docker.build("${ACR_NAME}.azurecr.io/${IMAGE_NAME}:${IMAGE_TAG}", '.')
              dockerImage.push()
           }
