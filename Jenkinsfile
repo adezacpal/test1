@@ -52,11 +52,14 @@ pipeline {
         
      stage('Build and Push Docker Image') {
       steps {
-        script {
-          docker.withRegistry("https://${ACR_NAME}.azurecr.io", 'karo-acr') {
-            def dockerImage = docker.build("${ACR_NAME}.azurecr.io/${IMAGE_NAME}:${IMAGE_TAG}", '.')
-            dockerImage.push()
-          }
+           withCredentials([usernamePassword(credentialsId: 'karo-acr', passwordVariable: 'password', usernameVariable: 'username')]) {
+               sh "docker login -u ${username} -p ${password} ${ACR_NAME}.azurecr.io"
+               sh "docker push ${ACR_NAME}.azurecr.io/${IMAGE_NAME}:${IMAGE_TAG}"
+       // script {
+         // docker.withRegistry("https://${ACR_NAME}.azurecr.io", 'karo-acr') {
+           // def dockerImage = docker.build("${ACR_NAME}.azurecr.io/${IMAGE_NAME}:${IMAGE_TAG}", '.')
+            // dockerImage.push()
+          //}
         }
       }
     }
