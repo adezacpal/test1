@@ -30,16 +30,14 @@ pipeline {
               }
             }
         }
-    
-    stage ('Build Docker image') {
+       stage ('Build Docker image') {
         steps {
                 script {
                     //dockerImage = docker.build registryUrl
                  def dockerImage = docker.build("${ACR_NAME}.azurecr.io/${IMAGE_NAME}:${IMAGE_TAG}", '.') 
                 }
             }
-       }
-        
+       } 
     // Uploading Docker images into ACR
         stage('Upload Image to ACR') {
          steps{   
@@ -50,8 +48,7 @@ pipeline {
                 }
             }
           }
-        }
-        
+         }
         stage('Deploy to AKS Cluster'){
             steps{
               script{
