@@ -51,12 +51,18 @@ pipeline {
               }
          }
       }
-       stage('Deploy to Kubernetes') {
-            steps {
-                script {
-                    sh 'kubectl --kubeconfig=${KUBECONFIG} apply -f deployment.yml'
-                }
+      stage ('K8S Deploy') {
+        steps {
+            script {
+                kubernetesDeploy(
+                    configs: 'deployment.yaml',
+                    kubeconfigId: 'karo-kubeconfig',
+                    enableConfigSubstitution: true
+                    )           
+               
             }
-        }
-    }
+          }
+      }
+  
+    }  
 }
