@@ -36,23 +36,16 @@ pipeline {
                 }
             }
        } 
-    // Uploading Docker images into ACR
-       // stage('Upload Image to ACR') {
-         //steps{   
-           //  script {
-             //    docker.withRegistry( "http://${ACR_NAME}.azurecr.io", registryCredential ) {
-                //dockerImage.push()
-              //sh " docker push ${ACR_NAME}.azurecr.io/${IMAGE_NAME}:${IMAGE_TAG}"
-               //   }
-              //}
-         //}
-      //}
-     stage ("Kube Deploy") {
-            steps {
-                withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'karo-kubeconfig', namespace: '', serverUrl: '') {
-                 sh "kubectl apply -f deployment.yml"
-                }
-            }
-        }
+     Uploading Docker images into ACR
+        stage('Upload Image to ACR') {
+         steps{   
+             script {
+                 docker.withRegistry( "http://${ACR_NAME}.azurecr.io", registryCredential ) {
+                dockerImage.push()
+              sh " docker push ${ACR_NAME}.azurecr.io/${IMAGE_NAME}:${IMAGE_TAG}"
+                  }
+              }
+         }
+      }
     }
 }
