@@ -42,7 +42,7 @@ pipeline {
          steps{   
              script {
                  docker.withRegistry( "http://${ACR_NAME}.azurecr.io", registryCredential ) {
-                dockerImage.push()
+               // dockerImage.push()
               sh " docker push ${ACR_NAME}.azurecr.io/${IMAGE_NAME}:${IMAGE_TAG}"
                   }
               }
