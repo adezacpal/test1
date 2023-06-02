@@ -54,11 +54,9 @@ pipeline {
       stage ('K8S Deploy') {
         steps {
             script {
-                kubernetesDeploy(
-                    configs: 'deployment.yaml',
-                    kubeconfigId: 'karo-kubeconfig',
-                    enableConfigSubstitution: true
-                    )           
+                withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'karo-kubecong', namespace: '', restrictKubeConfigAccess: false, serverUrl: '') {
+                        sh "kubectl apply -f deployment.yml"
+                }        
                
             }
           }
