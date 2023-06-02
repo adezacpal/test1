@@ -28,6 +28,7 @@ pipeline {
               }
             }
         }
+       // Building Docker Image 
        stage ('Build Docker image') {
         steps {
                 script {
@@ -36,7 +37,7 @@ pipeline {
                 }
             }
        } 
-     Uploading Docker images into ACR
+    // Uploading Docker images into ACR
         stage('Upload Image to ACR') {
          steps{   
              script {
