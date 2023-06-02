@@ -10,6 +10,8 @@ pipeline {
     IMAGE_NAME = "nodejswebapp"
     IMAGE_TAG = "v1.0.0"
     registryCredential  = "karo-acr"
+    KUBECONFIG = credentials('karo-kubeconfig')
+
       
 
     }
@@ -45,19 +47,16 @@ pipeline {
                  docker.withRegistry( "http://${ACR_NAME}.azurecr.io", registryCredential ) {
                 //dockerImage.push()
               sh " docker push ${ACR_NAME}.azurecr.io/${IMAGE_NAME}:${IMAGE_TAG}"
+                  }
+              }
+         }
+      }
+       stage('Deploy to Kubernetes') {
+            steps {
+                script {
+                    sh 'kubectl --kubeconfig=${KUBECONFIG} apply -f deployment.yml'
                 }
             }
-          }
-         }
-      stage('K8S Deploy') {
-                   steps{
-                     script {
-                        withKubeConfig(caCertificate: '', clusterName: 'boboCluster', contextName: '', credentialsId: 'karo-kubecong', namespace: '', restrictKubeConfigAccess: false, serverUrl: '') {
-                         sh "kubectl apply -f deployment.yml"
-                  }
-                }
-             }
         }
     }
 }
-   
