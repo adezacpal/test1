@@ -52,7 +52,7 @@ pipeline {
           }
         }
         
-        stage(Deploy to AKS Cluster){
+        stage('Deploy to AKS Cluster'){
             steps{
               script{
                 withKubeConfig(caCertificate: '', clusterName: 'boboCluster', contextName: '', credentialsId: 'karo-kubecong', namespace: '', restrictKubeConfigAccess: false, serverUrl: '') {
