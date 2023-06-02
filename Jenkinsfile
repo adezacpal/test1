@@ -51,16 +51,12 @@ pipeline {
               //}
          //}
       //}
-      stage ('K8S Deploy') {
-        steps {
-            script {
-                withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'karo-kubecong', namespace: '', restrictKubeConfigAccess: false, serverUrl: '') {
-                        sh "kubectl apply -f deployment.yml"
-                }        
-               
+     stage ("Kube Deploy") {
+            steps {
+                withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'karo-kubeconfig', namespace: '', serverUrl: '') {
+                 sh "kubectl apply -f deployment.yml"
+                }
             }
-          }
-      }
-  
-    }  
+        }
+    }
 }
