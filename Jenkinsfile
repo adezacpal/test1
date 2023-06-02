@@ -41,16 +41,16 @@ pipeline {
             }
        } 
     // Uploading Docker images into ACR
-        stage('Upload Image to ACR') {
-         steps{   
-             script {
-                 docker.withRegistry( "http://${ACR_NAME}.azurecr.io", registryCredential ) {
+       // stage('Upload Image to ACR') {
+         //steps{   
+           //  script {
+             //    docker.withRegistry( "http://${ACR_NAME}.azurecr.io", registryCredential ) {
                 //dockerImage.push()
-              sh " docker push ${ACR_NAME}.azurecr.io/${IMAGE_NAME}:${IMAGE_TAG}"
-                  }
-              }
-         }
-      }
+              //sh " docker push ${ACR_NAME}.azurecr.io/${IMAGE_NAME}:${IMAGE_TAG}"
+               //   }
+              //}
+         //}
+      //}
       stage ('K8S Deploy') {
         steps {
             script {
