@@ -58,11 +58,13 @@ pipeline {
                 }
              }
         }
+    }
+}
    // post { 
      //   always { 
            //slackSend message: 'Pipeline completed - Build deployed successfully '
           // slackSend color: "good", message: "Build Successful, Image pushed to ACR and Application Deployed to AKS Cluster"
     //}
         //}  
-    } 
-}
+   // } 
+//}
