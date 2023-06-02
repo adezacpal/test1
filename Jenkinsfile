@@ -10,11 +10,6 @@ pipeline {
     IMAGE_NAME = "nodejswebapp"
     IMAGE_TAG = "v1.0.0"
     registryCredential  = "karo-acr"
-    KUBECONFIG=credentials('karo-kubeconfig')    
-  
-
-      
-
     }
     stages { 
         stage('SCM Checkout') {
